@@ -1,0 +1,41 @@
+from flask import jsonify, Blueprint, request
+from Entidades.rol import roles
+from Entidades.sucursal import sucursales
+
+personal_admin_bp = Blueprint('personal_admin', __name__)
+
+empleados_admin = {
+    301: {"id": 301, "nombre": "Juanito", "id_rol": roles[401]["id"], "id_sucursal": sucursales[201]["id"]}
+}
+
+@personal_admin_bp.get("/personal_admin")
+def mostrar_personal():
+    return jsonify(list(empleados_admin.values()))
+
+@personal_admin_bp.get("/personal_admin/<int:id>")
+def obtener_empleado(id):
+    empleado = empleados_admin.get(id)
+
+    if empleado:
+        return jsonify(empleado)
+    return jsonify({"error": "Este empleado no esta registrado en el sistema"})
+
+@personal_admin_bp.post("/personal_admin")
+def agregar_empleado():
+    datos = request.get_json()
+
+    if not datos:
+        return jsonify({"error": "Debe enviar informacion sobre el empleado"})
+    if "nombre" not in datos or "id_rol" not in datos or "id_sucursal" not in datos:
+        return jsonify({"error": "Los campos de nombre, id_rol y id_sucursal son requeridos en el registro"})
+    
+    nuevo_id = max(empleados_admin.keys()) + 1
+
+    empleados_admin[nuevo_id] = {
+        "id": nuevo_id,
+        "nombre": datos["nombre"],
+        "id_rol": datos["id_rol"],
+        "id_sucursal": datos["id_sucursal"]
+    }
+
+    return jsonify(empleados_admin[nuevo_id]), 201
