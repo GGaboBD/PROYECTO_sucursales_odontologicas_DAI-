@@ -10,7 +10,7 @@ roles = {
 def mostrar_roles():
     return jsonify(list(roles.values()))
 
-@rol_bp.get("/roles/<int:id>")
+@rol_bp.get("/rol/<int:id>")
 def obtener_rol(id):
     rol = roles.get(id)
 

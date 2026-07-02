@@ -5,7 +5,7 @@ ventas_bp = Blueprint('ventas', __name__)
 
 
 ventas = {
-    101: {"id": 101, "fecha_venta": "15/6/2026", "monto_venta": 45.99, "id_sucursal": sucursales[201]["id"]}
+    101: {"id": 101, "fecha_venta": "15/06/2026", "monto_venta": 45.99, "id_sucursal": sucursales[201]["id"]}
 }
 
 @ventas_bp.get("/ventas")
@@ -27,7 +27,7 @@ def agregar_venta():
     if not datos:
         return jsonify({"error": "Debe enviar informacion sobre la venta"})
     if "fecha_venta" not in datos or "monto_venta" not in datos or "id_sucursal" not in datos:
-        return jsonify({"error": "Los campos de fecha y monto son requeridos en el registro"})
+        return jsonify({"error": "Los campos de fecha, monto y sucursal son requeridos en el registro"})
     
     nuevo_id = max(ventas.keys()) + 1
 
