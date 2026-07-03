@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify, request
-from domain.cita_rules import CitaRules
+from Domain.cita_rules import CitaRules
 
 citas_bp = Blueprint('citas', __name__)
 

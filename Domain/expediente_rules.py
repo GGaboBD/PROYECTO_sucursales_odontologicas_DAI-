@@ -1,4 +1,3 @@
-# Reglas de negocio - Expediente
 import re
 
 

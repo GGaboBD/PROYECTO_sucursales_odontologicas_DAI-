@@ -1,5 +1,5 @@
 from flask import jsonify, Blueprint, request
-from domain.sucursal_rules import SucursalRules
+from Domain.sucursal_rules import SucursalRules
 
 sucursal_bp = Blueprint('sucursal', __name__)
 
