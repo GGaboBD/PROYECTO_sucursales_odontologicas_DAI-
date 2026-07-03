@@ -16,7 +16,7 @@ class Cita:
         if not self.horario_cita:
             raise ValueError("El horario de la cita no puede estar vacío")
 
-    def registrar_cita(self, citas):
+    def agendar_cita(self, citas):
         self.validar_datos()
         citas[self.id_cita] = self.to_dict()
         return citas
