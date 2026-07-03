@@ -1,6 +1,6 @@
 from flask import jsonify, Blueprint, request
-from Entidades.sucursal import sucursales
-from domain.paciente_rules import PacienteRules
+from rutas.sucursal import sucursales
+from Domain.paciente_rules import PacienteRules
 
 paciente_bp = Blueprint('paciente', __name__)
 
