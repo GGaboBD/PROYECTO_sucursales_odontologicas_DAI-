@@ -1,7 +1,7 @@
 from flask import jsonify, Blueprint, request
 from Entidades.rol import roles
 from Entidades.sucursal import sucursales
-from domain.personal_administrativo_rules import PersonalAdministrativoRules
+from Domain.personal_administrativo_rules import PersonalAdministrativoRules
 
 personal_admin_bp = Blueprint('personal_admin', __name__)
 

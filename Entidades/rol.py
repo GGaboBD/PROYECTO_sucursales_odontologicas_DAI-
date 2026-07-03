@@ -1,5 +1,5 @@
 from flask import jsonify, Blueprint, request
-from domain.rol_rules import RolRules
+from Domain.rol_rules import RolRules
 
 rol_bp = Blueprint('rol', __name__)
 
