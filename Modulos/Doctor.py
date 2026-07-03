@@ -7,16 +7,8 @@ class Doctor:
         self.id_especialidad = id_especialidad
 
     def validar_datos(self):
-        if not self.id_doctor or not str(self.id_doctor).strip():
-            raise ValueError("El id del doctor no puede estar vacío")
-        if not self.nombre or not str(self.nombre).strip():
-            raise ValueError("El nombre del doctor no puede estar vacío")
-        if not self.jvpo_doctor or not str(self.jvpo_doctor).strip():
-            raise ValueError("El JVPO del doctor no puede estar vacío")
-        if not self.id_sucursal or not str(self.id_sucursal).strip():
-            raise ValueError("La sucursal del doctor no puede estar vacía")
-        if not self.id_especialidad or not str(self.id_especialidad).strip():
-            raise ValueError("La especialidad del doctor no puede estar vacía")
+        if not self.id_doctor or not self.nombre or not self.id_sucursal or not self.id_especialidad:
+            raise ValueError("Faltan datos obligatorios del doctor")
 
     def registrar_doctor(self, doctores):
         self.validar_datos()
@@ -31,6 +23,9 @@ class Doctor:
             "id_sucursal": self.id_sucursal,
             "id_especialidad": self.id_especialidad
         }
+
+    def Disponibilidad(self):
+        return True
 
     def __str__(self):
         return f"Doctor({self.id_doctor}, {self.nombre}, especialidad={self.id_especialidad})"

@@ -1,4 +1,6 @@
 # Reglas de negocio - Rol
+import re
+
 
 class RolRules:
     @staticmethod
@@ -11,6 +13,10 @@ class RolRules:
             raise ValueError("El nombre del rol no puede estar vacío")
         if not datos["descripcion"].strip():
             raise ValueError("La descripción del rol no puede estar vacía")
-        if not isinstance(datos["id_rol"], int) or datos["id_rol"] <= 0:
-            raise ValueError("El id_rol debe ser un número entero positivo")
-    
+
+    @staticmethod
+    def validar_identificador(valor, nombre_campo="identificador"):
+        if not valor or not str(valor).strip():
+            raise ValueError(f"El {nombre_campo} no puede estar vacío")
+        if not re.fullmatch(r"[A-Za-z0-9]+", str(valor)):
+            raise ValueError(f"El {nombre_campo} solo puede tener letras y números")

@@ -11,18 +11,10 @@ class Cita:
         self.id_servicio = id_servicio
 
     def validar_datos(self):
-        if not self.id_cita or not str(self.id_cita).strip():
-            raise ValueError("El id de la cita no puede estar vacío")
-        if not self.id_sucursal or not str(self.id_sucursal).strip():
-            raise ValueError("El id de la sucursal no puede estar vacío")
+        if not self.id_cita or not self.id_sucursal or not self.id_doctor or not self.id_expediente or not self.id_servicio:
+            raise ValueError("Todos los identificadores de la cita son requeridos")
         if not self.horario_cita:
             raise ValueError("El horario de la cita no puede estar vacío")
-        if not self.id_doctor or not str(self.id_doctor).strip():
-            raise ValueError("El id del doctor no puede estar vacío")
-        if not self.id_expediente or not str(self.id_expediente).strip():
-            raise ValueError("El id del expediente no puede estar vacío")
-        if not self.id_servicio or not str(self.id_servicio).strip():
-            raise ValueError("El id del servicio no puede estar vacío")
 
     def registrar_cita(self, citas):
         self.validar_datos()
@@ -38,6 +30,20 @@ class Cita:
             "id_expediente": self.id_expediente,
             "id_servicio": self.id_servicio,
         }
+
+    def modificar_cita(self, citas, **campos):
+        if self.id_cita not in citas:
+            raise KeyError("La cita no existe")
+        for clave, valor in campos.items():
+            if hasattr(self, clave):
+                setattr(self, clave, valor)
+            citas[self.id_cita][clave] = valor
+        return citas
+
+    def eliminar_cita(self, citas):
+        if self.id_cita in citas:
+            del citas[self.id_cita]
+        return citas
 
     def __str__(self):
         return f"Cita({self.id_cita}, {self.horario_cita}, servicio={self.id_servicio})"

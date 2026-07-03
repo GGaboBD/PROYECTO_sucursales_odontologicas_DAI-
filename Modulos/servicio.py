@@ -5,10 +5,8 @@ class Servicio:
         self.descripcion = descripcion
 
     def validar_datos(self):
-        if not self.id_servicio or not str(self.id_servicio).strip():
-            raise ValueError("El id del servicio no puede estar vacío")
-        if not self.nombre or not str(self.nombre).strip():
-            raise ValueError("El nombre del servicio no puede estar vacío")
+        if not self.id_servicio or not self.nombre:
+            raise ValueError("El servicio necesita un id y un nombre")
 
     def registrar_servicio(self, servicios):
         self.validar_datos()
@@ -21,6 +19,11 @@ class Servicio:
             "nombre": self.nombre,
             "descripcion": self.descripcion,
         }
+
+    def eliminar_servicio(self, servicios):
+        if self.id_servicio in servicios:
+            del servicios[self.id_servicio]
+        return servicios
 
     def __str__(self):
         return f"Servicio({self.id_servicio}, {self.nombre})"

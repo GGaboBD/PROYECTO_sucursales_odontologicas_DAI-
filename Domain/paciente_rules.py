@@ -1,4 +1,6 @@
 # Reglas de negocio - Paciente
+import re
+
 
 class PacienteRules:
     @staticmethod
@@ -13,3 +15,10 @@ class PacienteRules:
             raise ValueError("El DUI del paciente no puede estar vacío")
         if not datos["telefono"].strip():
             raise ValueError("El teléfono no puede estar vacío")
+
+    @staticmethod
+    def validar_identificador(valor, nombre_campo="identificador"):
+        if not valor or not str(valor).strip():
+            raise ValueError(f"El {nombre_campo} no puede estar vacío")
+        if not re.fullmatch(r"[A-Za-z0-9]+", str(valor)):
+            raise ValueError(f"El {nombre_campo} solo puede tener letras y números")

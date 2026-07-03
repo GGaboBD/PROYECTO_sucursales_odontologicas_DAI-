@@ -1,4 +1,6 @@
 # Reglas de negocio - Expediente
+import re
+
 
 class ExpedienteRules:
     @staticmethod
@@ -19,3 +21,10 @@ class ExpedienteRules:
             raise ValueError("El id_paciente no puede estar vacío")
         if not datos["fecha_apertura"].strip():
             raise ValueError("La fecha de apertura no puede estar vacía")
+
+    @staticmethod
+    def validar_id_expediente(valor):
+        if not valor or not str(valor).strip():
+            raise ValueError("El id del expediente no puede estar vacío")
+        if not re.fullmatch(r"[A-Za-z0-9]+", str(valor)):
+            raise ValueError("El id del expediente solo puede tener letras y números")

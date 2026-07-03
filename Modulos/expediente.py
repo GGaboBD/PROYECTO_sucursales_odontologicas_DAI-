@@ -18,6 +18,25 @@ class Expediente:
         expedientes[self.id_expediente] = self.to_dict()
         return expedientes
 
+    def to_dict(self):
+        return {
+            "id_expediente": self.id_expediente,
+            "id_paciente": self.id_paciente,
+            "fecha_apertura": self.fecha_apertura,
+            "alergias_medicamentos": self.alergias_medicamentos,
+            "enfermedades_preexistentes": self.enfermedades_preexistentes,
+            "notas_medicas": self.notas_medicas,
+        }
+
+    def modificar_expediente(self, expedientes, **campos):
+        if self.id_expediente not in expedientes:
+            raise KeyError("El expediente no existe")
+        for clave, valor in campos.items():
+            if hasattr(self, clave):
+                setattr(self, clave, valor)
+            expedientes[self.id_expediente][clave] = valor
+        return expedientes
+
     def almacenar_diccionario(self):
         return {
             "id": self.id_expediente,

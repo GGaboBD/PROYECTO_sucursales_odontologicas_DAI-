@@ -1,5 +1,7 @@
 # Reglas de negocio - Venta
 import datetime
+import re
+
 
 class VentaRules:
     @staticmethod
@@ -12,7 +14,14 @@ class VentaRules:
             raise ValueError("La fecha de venta no puede estar vacía")
         if datos["monto_venta"] <= 0:
             raise ValueError("El monto de venta debe ser mayor a cero")
-        
+
         fecha_venta = datetime.strptime(datos["fecha_venta"], "%Y-%m-%d")
         if fecha_venta > datetime.now():
             raise ValueError("La fecha de venta no puede ser futura")
+
+    @staticmethod
+    def validar_identificador(valor, nombre_campo="identificador"):
+        if not valor or not str(valor).strip():
+            raise ValueError(f"El {nombre_campo} no puede estar vacío")
+        if not re.fullmatch(r"[A-Za-z0-9]+", str(valor)):
+            raise ValueError(f"El {nombre_campo} solo puede tener letras y números")
