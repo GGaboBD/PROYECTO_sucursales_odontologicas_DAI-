@@ -1,5 +1,6 @@
 from flask import jsonify, Blueprint, request
 from Entidades.paciente import pacientes
+from domain.expediente_rules import ExpedienteRules
 
 expedientes_bp = Blueprint('expediente', __name__)
 
@@ -23,10 +24,10 @@ def obtener_expediente(id):
 def agregar_expediente():
     datos = request.get_json()
 
-    if not datos:
-        return jsonify({"error": "Debe enviar informacion sobre el expediente"})
-    if "id_paciente" not in datos or "fecha_apertura" not in datos or "alergias_medicamentos" not in datos or "enfermedades_existentes" not in datos or "notas_medicas" not in datos:
-        return jsonify({"error": "Los campos: id_paciente, fecha_apertura, alergias_medicamentos, enfermedades_existentes y notas_medicas son requeridos en el registro"})
+    try:
+        ExpedienteRules.validar_creacion(datos)
+    except ValueError as error:
+        return jsonify({"error": str(error)}), 400
     
     nuevo_id = max(expedientes.keys()) + 1
 

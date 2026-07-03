@@ -1,5 +1,6 @@
 from flask import jsonify, Blueprint, request
 from Entidades.sucursal import sucursales
+from domain.paciente_rules import PacienteRules
 
 paciente_bp = Blueprint('paciente', __name__)
 
@@ -23,10 +24,10 @@ def obtener_paciente(id):
 def agregar_paciente():
     datos = request.get_json()
 
-    if not datos:
-        return jsonify({"error": "Debe enviar informacion sobre el paciente"})
-    if "nombre_paciente" not in datos or "dui_paciente" not in datos or "telefono" not in datos or "id_sucursal" not in datos:
-        return jsonify({"error": "Los campos: nombre_paciente, dui_paciente, telefono y id_sucursal son requeridos para el registro"})
+    try:
+        PacienteRules.validar_creacion(datos)
+    except ValueError as error:
+        return jsonify({"error": str(error)}), 400
     
     nuevo_id = max(pacientes.keys()) + 1
 

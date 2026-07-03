@@ -1,6 +1,7 @@
 from flask import jsonify, Blueprint, request
 from Entidades.rol import roles
 from Entidades.sucursal import sucursales
+from domain.personal_administrativo_rules import PersonalAdministrativoRules
 
 personal_admin_bp = Blueprint('personal_admin', __name__)
 
@@ -24,10 +25,10 @@ def obtener_empleado(id):
 def agregar_empleado():
     datos = request.get_json()
 
-    if not datos:
-        return jsonify({"error": "Debe enviar informacion sobre el empleado"})
-    if "nombre" not in datos or "id_rol" not in datos or "id_sucursal" not in datos:
-        return jsonify({"error": "Los campos de nombre, id_rol y id_sucursal son requeridos en el registro"})
+    try:
+        PersonalAdministrativoRules.validar_creacion(datos)
+    except ValueError as error:
+        return jsonify({"error": str(error)}), 400
     
     nuevo_id = max(empleados_admin.keys()) + 1
 

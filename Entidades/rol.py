@@ -1,4 +1,5 @@
 from flask import jsonify, Blueprint, request
+from domain.rol_rules import RolRules
 
 rol_bp = Blueprint('rol', __name__)
 
@@ -22,10 +23,10 @@ def obtener_rol(id):
 def agregar_rol():
     datos = request.get_json()
 
-    if not datos:
-        return jsonify({"error": "Debe enviar informacion sobre el rol"})
-    if "nombre_rol" not in datos or "descripcion" not in datos:
-        return jsonify({"error": "Los campos de nombre y descripcion son requeridos en el registro"})
+    try:
+        RolRules.validar_creacion(datos)
+    except ValueError as error:
+        return jsonify({"error": str(error)}), 400
     
     nuevo_id = max(roles.keys()) + 1
 

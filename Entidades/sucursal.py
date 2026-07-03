@@ -1,4 +1,5 @@
 from flask import jsonify, Blueprint, request
+from domain.sucursal_rules import SucursalRules
 
 sucursal_bp = Blueprint('sucursal', __name__)
 
@@ -22,10 +23,10 @@ def obtener_sucursal(id):
 def agregar_sucursal():
     datos = request.get_json()
 
-    if not datos:
-        return jsonify({"error": "Debe enviar informacion sobre la sucursal"})
-    if "nombre" not in datos or "direccion" not in datos or "telefono" not in datos:
-        return jsonify({"error": "Los campos de nombre, direccion y telefono son requeridos en el registro"})
+    try:
+        SucursalRules.validar_creacion(datos)
+    except ValueError as error:
+        return jsonify({"error": str(error)}), 400
     
     nuevo_id = max(sucursales.keys()) + 1
 

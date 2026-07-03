@@ -1,5 +1,6 @@
 from flask import jsonify, Blueprint, request
 from Entidades.sucursal import sucursales
+from domain.venta_rules import VentaRules
 
 ventas_bp = Blueprint('ventas', __name__)
 
@@ -24,10 +25,10 @@ def obtener_venta(id):
 def agregar_venta():
     datos = request.get_json()
 
-    if not datos:
-        return jsonify({"error": "Debe enviar informacion sobre la venta"})
-    if "fecha_venta" not in datos or "monto_venta" not in datos or "id_sucursal" not in datos:
-        return jsonify({"error": "Los campos de fecha, monto y sucursal son requeridos en el registro"})
+    try:
+        VentaRules.validar_creacion(datos)
+    except ValueError as error:
+        return jsonify({"error": str(error)}), 400
     
     nuevo_id = max(ventas.keys()) + 1
 
